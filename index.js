@@ -38,13 +38,33 @@ const server = http.createServer((req,res) =>{
             });
             break;
             
-            case req.url === "/colors.json" && req.method === "GET":
+            //Kérés a JSON állományra
+            case req.url === "/colors" && req.method === "GET":
             fs.readFile('./datas/colors.json', (err, data) =>{
                 res.setHeader('content-type', 'application/json');
                 res.writeHead(200);
                 res.end(data);
             });
             break;
+
+            //Kérés kiszolgálás
+            case req.url==="/colors" && req.method === "POST":
+                let tartalom ='';
+                req.on('data', (chunk) =>{
+                        tartalom += chunk.toString();
+                });
+                req.on('end', () => {
+                    //Fel kell venni a tartalmat
+                    const newColor = JSON.parse(tartalom);
+
+                    fs.readFile('./colors.json', (err, data) =>{
+                        const colors = JSON.parse(data);
+                        colors.push(newColor);
+                        fs.writeFile('./colors.json', JSON.stringify(colors), ()=>{
+                            res.end(JSON.stringify(newColor));
+                        });
+                    })
+                })
             
             default:
                 res.setHeader('content-type', 'text/html');
