@@ -30,7 +30,8 @@ document.getElementById('create-color').onsubmit = async function (event) {
         method: 'POST',
         headers: {
             'content-type': 'application/json'
-        }
+        },
+        body: JSON.stringify({code, name})
     });
 
     if (res.ok) {

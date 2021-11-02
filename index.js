@@ -11,10 +11,10 @@ const server = http.createServer((req,res) =>{
     -kliens json
     -favicon
     */
-    console.log(req.url);
+    /*console.log(req.url);
     console.log(req.method);
     console.log("----");
-
+*/
    switch (true){
        case req.url === "/" && req.method === "GET":
            fs.readFile('./views/index.html', (err, data) =>{
@@ -47,7 +47,7 @@ const server = http.createServer((req,res) =>{
             });
             break;
 
-            //Kérés kiszolgálás
+            //Írási kérelem kiszolgálása
             case req.url==="/colors" && req.method === "POST":
                 let tartalom ='';
                 req.on('data', (chunk) =>{
@@ -57,15 +57,16 @@ const server = http.createServer((req,res) =>{
                     //Fel kell venni a tartalmat
                     const newColor = JSON.parse(tartalom);
 
-                    fs.readFile('./colors.json', (err, data) =>{
+                    fs.readFile('./datas/colors.json', (err, data) =>{
                         const colors = JSON.parse(data);
                         colors.push(newColor);
-                        fs.writeFile('./colors.json', JSON.stringify(colors), ()=>{
+                        fs.writeFile('./datas/colors.json', JSON.stringify(colors), ()=>{
                             res.end(JSON.stringify(newColor));
                         });
                     })
                 })
-            
+            break;
+
             default:
                 res.setHeader('content-type', 'text/html');
                 res.writeHead(404);
