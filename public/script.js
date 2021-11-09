@@ -8,7 +8,7 @@ async function fetchAndRenderColors() {
     let colorsHTML = "<h1>Színek</h1>";
     for (color of colors) {
         colorsHTML += `<div class ='card mb-2 w-50'>
-                    <div class='card-body' style='background-color:${color.name}'>
+                    <div class='card-body' style='background-color:${color.code}'>
                     <h5 class='card-title'>${color.name}</h5>
                     <p class='card-text'>${color.code}</p>
                     </div>
@@ -31,7 +31,7 @@ document.getElementById('create-color').onsubmit = async function (event) {
         headers: {
             'content-type': 'application/json'
         },
-        body: JSON.stringify({code, name})
+        body: JSON.stringify({name, code})
     });
 
     if (res.ok) {
