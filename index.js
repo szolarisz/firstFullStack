@@ -120,11 +120,12 @@ function validate(szin){
     if(szin.code.length != 7) 
         return false;
     const codePattern = /#[0-9A-Fa-f]{6}/gm;
-    const namePattern = /[a-zA-Z]{3,}/;    
-    if( ! szin.code.match(codePattern))
+    const namePattern = /[^a-z]/i;    
+    if( ! codePattern.test(szin.code))
         return false;    
     //name csak angol abc betű
-    if( ! szin.name.match(namePattern))
+    //console.log(szin.name+" -> "+szin.name.replace(namePattern,""));
+    if( szin.name != szin.name.replace(namePattern,""))
         return false;
     return  true;
 }
