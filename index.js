@@ -81,7 +81,7 @@ const server = http.createServer((req, res) => {
                 newColor = sanitizeColor(newColor);
                 
                 if( ! validate(newColor) ) {
-                    console.log("Hiba a validálás során");
+                    console.log("Hibás adat került megadásra");
                     return;
                 }
                 fs.readFile('./datas/colors.json', (err, data) => {
@@ -115,6 +115,16 @@ function sanitizeColor(color){
     return color;
 }
 
-function validate(){
+function validate(szin){
+    //code alakja #AA00FF
+    if(szin.code.length != 7) 
+        return false;
+    const codePattern = /#[0-9A-Fa-f]{6}/gm;
+    const namePattern = /[a-zA-Z]{3,}/;    
+    if( ! szin.code.match(codePattern))
+        return false;    
+    //name csak angol abc betű
+    if( ! szin.name.match(namePattern))
+        return false;
     return  true;
 }
