@@ -79,8 +79,8 @@ const server = http.createServer((req, res) => {
                 let newColor = JSON.parse(tartalom);
 
                 newColor = sanitizeColor(newColor);
-                
-                if( ! validate(newColor) ) {
+
+                if (!validate(newColor)) {
                     console.log("Hibás adat került megadásra");
                     return;
                 }
@@ -106,26 +106,29 @@ server.listen(port);
 
 function sanitizeString(str) {
     return str.replace(/[^#a-z0-9_-\s\.,]/gim, "").trim();
-    
+
 }
 
-function sanitizeColor(color){
+function sanitizeColor(color) {
     color.code = sanitizeString(color.code);
     color.name = sanitizeString(color.name);
     return color;
 }
 
-function validate(szin){
+function validate(szin) {
     //code alakja #AA00FF
-    if(szin.code.length != 7) 
+    if (szin.code.length != 7)
         return false;
-    const codePattern = /#[0-9A-Fa-f]{6}/gm;
-    const namePattern = /[^a-z]/i;    
-    if( ! codePattern.test(szin.code))
-        return false;    
+    const codePattern = /^(#[0-9A-Fa-f]{6})/;
+    const namePattern = /^([^a-z])/i;
+    if (!codePattern.test(szin.code))
+        return false;
     //name csak angol abc betű
     //console.log(szin.name+" -> "+szin.name.replace(namePattern,""));
-    if( szin.name != szin.name.replace(namePattern,""))
+    /*if( szin.name != szin.name.replace(namePattern,""))
         return false;
-    return  true;
+    */
+    if (!namePattern.test(szin.name))
+        return false;
+    return true;
 }
