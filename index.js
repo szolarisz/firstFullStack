@@ -120,7 +120,7 @@ function validate(szin) {
     if (szin.code.length != 7)
         return false;
     const codePattern = /^(#[0-9A-Fa-f]{6})/;
-    const namePattern = /^([^a-z])/i;
+    const namePattern = /^([a-z])/i;
     if (!codePattern.test(szin.code))
         return false;
     //name csak angol abc betű
